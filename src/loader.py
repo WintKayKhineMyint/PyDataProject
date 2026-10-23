@@ -10,6 +10,7 @@ WHAT GOES HERE
     PART B – YOUR PROJECT SETTINGS. Fill them in during Lab 2: the name of
              your data file and the columns you use, with their types.
 """
+
 import csv
 from pathlib import Path
 
@@ -26,12 +27,14 @@ PROCESSED_DIR = PROJECT_DIR / "data" / "processed"
 _ENCODINGS = ("utf-8-sig", "cp1250", "latin-1")
 _MISSING = {"", "na", "n/a", "nan", "none", "null", "-", "?"}
 
+
 def _detect_delimiter(header_line):
     """Pick the separator that splits the header line into the most columns."""
     candidates = [",", ";", "\t", "|"]
     counts = {sep: header_line.count(sep) for sep in candidates}
     best = max(counts, key=counts.get)
     return best if counts[best] > 0 else ","
+
 
 def load_csv(path, delimiter=None, encoding=None):
     """Read a CSV file and return a list of rows (one dictionary per row)."""
@@ -60,8 +63,11 @@ def load_csv(path, delimiter=None, encoding=None):
     rows = []
     for row in reader:
         if any(value not in (None, "") for value in row.values()):
-            rows.append({key: (value or "").strip() for key, value in row.items() if key})
+            rows.append(
+                {key: (value or "").strip() for key, value in row.items() if key}
+            )
     return rows
+
 
 def save_csv(rows, path):
     """Save a list of dictionaries as a CSV file (creates the folder if needed)."""
@@ -74,6 +80,7 @@ def save_csv(rows, path):
         writer.writeheader()
         writer.writerows(rows)
     return path
+
 
 def to_number(text):
     """'1,5' -> 1.5 · '26' -> 26.0 · '' or 'NA' -> None · 'abc' -> None"""
@@ -89,6 +96,7 @@ def to_number(text):
     except ValueError:
         return None
 
+
 def to_bool(text):
     """'True', 'yes', '1', 't' -> True · 'False', 'no', '0', 'f' -> False · other -> None"""
     value = str(text).strip().lower()
@@ -97,6 +105,7 @@ def to_bool(text):
     if value in ("false", "f", "no", "n", "0"):
         return False
     return None
+
 
 def _convert(value, kind):
     if kind is bool:
@@ -109,26 +118,42 @@ def _convert(value, kind):
     text = str(value).strip()
     return None if text.lower() in _MISSING else text
 
+
 def convert_rows(rows, column_types):
     """Keep only the columns from column_types and convert their values."""
     missing = [name for name in column_types if rows and name not in rows[0]]
     if missing:
-        raise KeyError(f"Columns not in the data: {missing}. Available: {list(rows[0])}")
-    return [{name: _convert(row[name], kind) for name, kind in column_types.items()} for row in rows]
+        raise KeyError(
+            f"Columns not in the data: {missing}. Available: {list(rows[0])}"
+        )
+    return [
+        {name: _convert(row[name], kind) for name, kind in column_types.items()}
+        for row in rows
+    ]
+
 
 def get_column(rows, name, skip_missing=True):
     """Return the values of one column as a list (None values skipped by default)."""
     values = [row[name] for row in rows]
     return [v for v in values if v is not None] if skip_missing else values
 
+
 # ===========================================================================
 # PART B – YOUR PROJECT SETTINGS (fill in during Lab 2)
 # ===========================================================================
-DATA_FILE_NAME = "my_data.csv"      # the exact name of your file in data/raw/
+DATA_FILE_NAME = (
+    "Student_Depression_Dataset.csv"  # the exact name of your file in data/raw/
+)
 
 # The columns you need for your question and their types (str, int, float, bool).
-COLUMN_TYPES = {
-}
+COLUMN_TYPES = {"
+                "Age": int,
+                "Gender": str,
+                "CGPA": float,
+                "Sleep Duration": str,
+                "Financial Stress": float,
+                "Depression": bool}
+
 
 def load_project_data():
     """Read the project data file and return converted rows."""
