@@ -146,13 +146,14 @@ DATA_FILE_NAME = (
 )
 
 # The columns you need for your question and their types (str, int, float, bool).
-COLUMN_TYPES = {"
-                "Age": int,
-                "Gender": str,
-                "CGPA": float,
-                "Sleep Duration": str,
-                "Financial Stress": float,
-                "Depression": bool}
+COLUMN_TYPES = {
+    "Age": int,
+    "Gender": str,
+    "CGPA": float,
+    "Sleep Duration": str,
+    "Financial Stress": float,
+    "Depression": bool,
+}
 
 
 def load_project_data():
