@@ -1,4 +1,16 @@
 LAB 1
+Our question: … 
+How do lifestyle factors (like sleep duration and financial stress) and academic pressure correlate with student depression rates and overall CGPA?
 
+One row of the data represents: … 
+A single's student survey responses covering their demographics, habits, mental health metrics.
+
+Columns we need: …
+Age, CGPA, Sleep duration, finanial stress and depression score.
+
+What is missing or strange: …
+Sleep Duration is formatted in weird way.('5-6 hours, etc.'), location is just a city not the country.
+
+Verdict: ☐ yes ☐ partly – we will … ☐ no – we will look for other data
 LAB 2
     
