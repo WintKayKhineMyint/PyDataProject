@@ -19,4 +19,11 @@ which columns do you need for your question? Usually 3–10. Write their names d
 
 Age, CGPA, Sleep Duration, Financial Stress, Depression
 
+LAB 3
+
+what do our numbers show about our question
+
+Our analysis of the student depression dataset shows that CGPA distribution is extremely similar across both genders. 
+The mean CGPA scores vary by less than a tenth of a point between groups (7.6 and 7.7).
+
     
