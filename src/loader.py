@@ -83,14 +83,25 @@ def save_csv(rows, path):
 
 
 def to_number(text):
-    """'1,5' -> 1.5 · '26' -> 26.0 · '' or 'NA' -> None · 'abc' -> None"""
+    # if text is None → give back None
     if text is None:
         return None
+    # if text is already a number (int or float) → give back float(text)    hint: isinstance(text, (int, float))
     if isinstance(text, (int, float)):
         return float(text)
-    text = str(text).strip().replace(" ", "").replace(",", ".")
-    if text.lower() in _MISSING:
+    # clean the text in one line: str(...), strip, remove " ", "%" and "zł", change "," into "."
+    text = (
+        str(text)
+        .strip()
+        .replace(" ", "")
+        .replace("%", "")
+        .replace("zł", "")
+        .replace(",", ".")
+    )
+    # if the lower-case text is one of "", "na", "nan", "none", "-", "?" → give back None
+    if text.lower() in ("", "na", "nan", "none", "-", "?"):
         return None
+    # try: give back float(text) · except ValueError: give back None
     try:
         return float(text)
     except ValueError:
@@ -98,12 +109,15 @@ def to_number(text):
 
 
 def to_bool(text):
-    """'True', 'yes', '1', 't' -> True · 'False', 'no', '0', 'f' -> False · other -> None"""
+    # make value = the text as str, without spaces at the ends, in small letters
     value = str(text).strip().lower()
+    # if value is one of "true", "t", "yes", "y", "1" → give back True
     if value in ("true", "t", "yes", "y", "1"):
         return True
+    # if value is one of "false", "f", "no", "n", "0" → give back False
     if value in ("false", "f", "no", "n", "0"):
         return False
+    # otherwise give back None
     return None
 
 
